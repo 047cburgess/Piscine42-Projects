@@ -27,12 +27,6 @@ int     ft_char_is_sign(char c)
                 return (0);
 }
 
-int	ft_pow(int nb, int power)
-{
-	if(power == 0)
-		return (1);
-	return (nb * ft_pow(nb, power-1));
-}
 
 int	ft_check_base(char *base, unsigned int base_size)
 {
@@ -74,15 +68,6 @@ int	in_base(char c, char *base)
 	return (0);
 }	
 
-int	get_place_in_base(char c, char *base)
-{
-	int i;
-
-	while (base[i] && base[i] != c)
-		i++;
-	return i;
-}
-
 int	ft_atoi_base(char *str, char *base)
 {
 	int	result;
@@ -97,33 +82,29 @@ int	ft_atoi_base(char *str, char *base)
 	if (!ft_check_base(base, base_size))
 		return (0);
 	odd_count = 0;
-        i = 0;
+    i = 0;
 	while (ft_is_space(str[i]))
                 i++;
-        while (ft_char_is_sign(str[i]))
-        {
-                if (str[i] == '-')
-                        odd_count++;
-                i++;
-        }
+    while (ft_char_is_sign(str[i]))
+    {
+         if (str[i] == '-')
+             odd_count++;
+        i++;
+    }
 	len = i;
-        while (str[len] && in_base(str[len], base))
+    while (str[len] && in_base(str[len], base))
 		len++;
 	result = 0;
-	// && character is in the base
-        while (str[i] && in_base(str[i], base)) // character is part of the base)
-        {
-        	result = result + get_place_in_base(str[i], base) * ft_pow(base_size, len - i - 1);
-                i++;
-        }
-        if ((odd_count % 2) != 0)
-                result = -result;
-        return (result);
-
+    while (str[i] && in_base(str[i], base))
+    {
+    	result = result * base_size + base[str[i]];
+        i++;	        
+	}
+	if (odd_count % 2 != 0)
+		return (-result);  
+	return (result);
 }
 
-//bababa base "ab" -> 42 base "0123456789"
-//1 * 2^5 + 0 * 2^4 + 1 * 2^3 + 0 * 2^2 + 1 * 2^1 + 0 * 2^0 = 32 + 0 + 8 + 0 + 2 + 0 = 32 + 8 + 2 = 42
 
 int	main(int argc, char *argv[])
 {
