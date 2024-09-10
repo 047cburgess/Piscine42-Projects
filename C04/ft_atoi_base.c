@@ -68,6 +68,19 @@ int	in_base(char c, char *base)
 	return (0);
 }	
 
+int	converted_digit(char c, char *base)
+{
+	int i;
+	i = 0;
+	while (base[i])
+	{
+		if (base[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 int	ft_atoi_base(char *str, char *base)
 {
 	int	result;
@@ -97,7 +110,7 @@ int	ft_atoi_base(char *str, char *base)
 	result = 0;
     while (str[i] && in_base(str[i], base))
     {
-    	result = result * base_size + base[str[i]];
+    	result = result * base_size + converted_digit(str[i], base);
         i++;	        
 	}
 	if (odd_count % 2 != 0)
