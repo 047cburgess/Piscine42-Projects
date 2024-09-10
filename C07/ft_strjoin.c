@@ -38,31 +38,46 @@ int	ft_strssize(char **strs, int size)
 	return (strlen_strs);
 }
 
+char	*ft_strcat(char *dest, char *src)
+{
+	int	i;
+	int	destlen;
+
+	i = 0;
+	destlen = ft_strlen(dest);
+	while (src[i])
+	{
+		dest[destlen + i] = src[i];
+		i++;
+	}
+	dest[destlen + i] = '\0';
+	return (dest);
+}
+
 char	*ft_strjoin(int size, char **strs, char *sep)
 {
 	char	*dest;
 	int		i;
-	int		j;
-	int		k;
-	int		l;
 
-	dest = malloc(sizeof(char) * (ft_strssize(strs, size)
-				+ (ft_strlen(sep) * (size - 1)) + 1));
+	if (size <= 0)
+	{
+		dest = malloc(sizeof(char) * 1);
+		if (!dest)
+			return NULL;
+		dest[0] = '\0';
+		return (dest);
+	}
+	dest = malloc(sizeof(char) * ((ft_strssize(strs, size)
+				+ (ft_strlen(sep) * (size - 1)) + 1)));
 	if (!dest)
 		return (NULL);
 	i = 0;
-	j = 0;
+	dest[0] = '\0';
 	while (i < size)
 	{
-		k = 0;
-		while (strs[i][k] != '\0')
-			dest[j++] = strs[i][k++];
-		l = 0;
-		if (i == size - 1)
-			dest[j] = '\0';
-		else
-			while (sep[l])
-				dest[j++] = sep[l++];
+		ft_strcat(dest, strs[i]);
+		if (i != size - 1)
+			ft_strcat(dest, sep);
 		i++;
 	}
 	return (dest);
@@ -70,10 +85,10 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 
 int	main(void)
 {
-	char *strings[] = { "this", "exercise", "", "killed", "mee" };
+	char *strings[] = { "this", "exercise", "nearly", "killed", "mee" };
 	char *destination = ft_strjoin(5, strings, "_");
 
-	printf("%s\n", destination);
-
+	if (destination)
+		printf("%s\n", destination);
 	free(destination);
 }
