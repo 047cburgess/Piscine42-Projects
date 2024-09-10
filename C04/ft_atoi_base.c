@@ -87,7 +87,6 @@ int	ft_atoi_base(char *str, char *base)
 	int	odd_count;
 	int	base_size;
 	int	i;
-	int	len;
 	
 	base_size = 0;
 	while (base[base_size])
@@ -104,9 +103,6 @@ int	ft_atoi_base(char *str, char *base)
              odd_count++;
         i++;
     }
-	len = i;
-    while (str[len] && in_base(str[len], base))
-		len++;
 	result = 0;
     while (str[i] && in_base(str[i], base))
     {
